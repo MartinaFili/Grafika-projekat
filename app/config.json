@@ -1,6 +1,9 @@
 {
   "resources": {
     "models": {
+      "rooftop": {
+        "path": "rooftop/scene.gltf"
+      }
     }
   },
   "window": {
