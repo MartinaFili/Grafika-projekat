@@ -26,6 +26,11 @@ void MainController::initialize() {
     auto platform = engine::core::Controller::get<engine::platform::PlatformController>();
     platform->register_platform_event_observer(std::make_unique<MainPlatformEventObserver>());
     engine::graphics::OpenGL::enable_depth_testing();
+
+    auto camera = engine::core::Controller::get<engine::graphics::GraphicsController>()->camera();
+    camera->Position = glm::vec3(0.0f, 1.5f, 0.0f);
+    camera->Pitch = -20.0f;
+    camera->rotate_camera(0.0f, 0.0f);
 }
 
 bool MainController::loop() {
@@ -44,7 +49,8 @@ void MainController::draw_rooftop() {
     shader->set_mat4("projection", graphichs->projection_matrix());
     shader->set_mat4("view", graphichs->camera()->view_matrix());
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(0.0f, 0.0f, -3.0f));
+    model = glm::translate(model, glm::vec3(0.0f, -0.2f, -5.0f));
+    model = glm::rotate(model, glm::radians(-60.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     model = glm::scale(model, glm::vec3(0.3f));
     shader->set_mat4("model", model);
     rooftop->draw(shader);

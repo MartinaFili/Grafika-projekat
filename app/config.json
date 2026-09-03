@@ -2,7 +2,8 @@
   "resources": {
     "models": {
       "rooftop": {
-        "path": "rooftop/scene.gltf"
+        "path": "rooftop/scene.gltf",
+        "flip_uvs": true
       }
     }
   },
