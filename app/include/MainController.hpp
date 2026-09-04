@@ -15,6 +15,8 @@ class MainController : public engine::core::Controller {
 
     void draw_rooftop();
 
+    void draw_floor();
+
     void update_camera();
 
     void update() override;

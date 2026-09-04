@@ -31,6 +31,7 @@ void MainController::initialize() {
     camera->Position = glm::vec3(0.0f, 1.5f, 0.0f);
     camera->Pitch = -20.0f;
     camera->rotate_camera(0.0f, 0.0f);
+
 }
 
 bool MainController::loop() {
@@ -57,6 +58,28 @@ void MainController::draw_rooftop() {
 
 }
 
+void MainController::draw_floor() {
+    auto resources = engine::core::Controller::get<engine::resources::ResourcesController>();
+    auto graphichs = engine::core::Controller::get<engine::graphics::GraphicsController>();
+    engine::resources::Shader *shader = resources->shader("floor");
+    engine::resources::Texture *texture = resources->texture("rooftop_floor");
+
+    shader->use();
+    shader->set_mat4("projection", graphichs->projection_matrix());
+    shader->set_mat4("view", graphichs->camera()->view_matrix());
+
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(0.0f, -0.5f, -5.0f));
+    model = glm::rotate(model, glm::radians(-60.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::scale(model, glm::vec3(0.2f));
+    shader->set_mat4("model", model);
+
+    texture->bind(engine::graphics::OpenGL::texture_unit(0));
+    shader->set_int("floor_texture", 0);
+
+    engine::graphics::OpenGL::draw_floor_quad();
+}
+
 void MainController::update_camera() {
     auto platform = engine::core::Controller::get<engine::platform::PlatformController>();
     auto graphichs = engine::core::Controller::get<engine::graphics::GraphicsController>();
@@ -74,7 +97,10 @@ void MainController::update() { update_camera(); }
 
 void MainController::begin_draw() { engine::graphics::OpenGL::clear_buffers(); }
 
-void MainController::draw() { draw_rooftop(); }
+void MainController::draw() {
+    draw_floor();
+    draw_rooftop();
+}
 
 void MainController::end_draw() {
     auto platform = engine::core::Controller::get<engine::platform::PlatformController>();

@@ -5,6 +5,11 @@
         "path": "rooftop/scene.gltf",
         "flip_uvs": true
       }
+    },
+    "textures": {
+      "rooftop_floor": {
+        "path": "rooftop_floor.jpg"
+      }
     }
   },
   "window": {

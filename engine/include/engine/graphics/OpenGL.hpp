@@ -48,7 +48,7 @@ public:
     * @returns Return value if the `glfun` has it, otherwise void.
     */
     template<typename TResult, typename... TOpenGLArgs, typename... Args>
-    static TResult call(std::source_location location, TResult (*glfun)(TOpenGLArgs...), Args &&...args) {
+    static TResult call(std::source_location location, TResult (*glfun)(TOpenGLArgs...), Args &&... args) {
         // @formatter:off
         if constexpr (!std::is_same_v<TResult, void>) {
             auto result = glfun(std::forward<Args>(args)...);
@@ -92,6 +92,24 @@ public:
     * @returns VAO of the cube used for skybox drawing.
     */
     static uint32_t init_skybox_cube();
+
+    /**
+    * @brief Initializes the VAO used for drawing a flat floor quad. Caches the vao result.
+    * @returns VAO of the floor quad.
+    */
+    static uint32_t init_floor_quad();
+
+    /**
+    * @brief Draws the floor quad (2 triangles, 6 vertices).
+    */
+    static void draw_floor_quad();
+
+    /**
+    * @brief Converts a plain texture unit index (0, 1, 2...) to the corresponding OpenGL texture unit enum (GL_TEXTURE0, GL_TEXTURE1...).
+    * @param index Texture unit index.
+    * @returns OpenGL texture unit enum value.
+    */
+    static int32_t texture_unit(int32_t index);
 
     /**
     * @brief Check if the shader with the `shader_id` compiled successfully.
