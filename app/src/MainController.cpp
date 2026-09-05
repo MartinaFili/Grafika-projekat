@@ -2,7 +2,7 @@
 // Created by maki on 9/2/26.
 //
 
-#include "../include/MainController.hpp"
+#include <MainController.hpp>
 
 #include <GuiController.hpp>
 #include <engine/graphics/GraphicsController.hpp>
@@ -33,8 +33,8 @@ void MainController::initialize() {
 
     auto camera = engine::core::Controller::get<engine::graphics::GraphicsController>()->camera();
     camera->Position = glm::vec3(0.0f, 1.5f, 0.0f);
-    camera->Yaw = -45.0f;
-    camera->Pitch = -25.0f;
+    camera->Yaw = -160.0f;
+    camera->Pitch = 20.0f;
     camera->rotate_camera(0.0f, 0.0f);
 
 }

@@ -2,7 +2,7 @@
 // Created by maki on 9/4/26.
 //
 
-#include "../include/GuiController.hpp"
+#include <GuiController.hpp>
 #include <engine/platform/PlatformController.hpp>
 
 #include <imgui.h>
