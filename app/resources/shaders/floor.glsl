@@ -34,12 +34,17 @@ uniform float cutOff;
 uniform float outerCutOff;
 uniform float intensity;
 
+uniform vec3 dirLightDirection;
+uniform vec3 dirLightColor;
+uniform float dirLightIntensity;
+
 void main() {
     vec3 normal = vec3(0.0, 1.0, 0.0);
     vec3 baseColor = texture(floor_texture, TexCoords).rgb;
 
-    vec3 ambient = 0.4 * baseColor;
+    vec3 ambient = 0.6 * baseColor;
 
+    //Spot light (saucer)
     vec3 toLight = normalize(lightPos - FragPos);
     float diff = max(dot(normal, toLight), 0.0);
 
@@ -50,8 +55,12 @@ void main() {
     float distance = length(lightPos - FragPos);
     float attenuation = 1.0 / (1.0 + 0.09 * distance + 0.032 * distance * distance);
 
-    vec3 diffuse = diff * lightColor * intensity * spot * attenuation;
+    vec3 spotDiffuse = diff * lightColor * intensity * spot * attenuation;
 
-    vec3 result = (ambient + diffuse) * baseColor;
+    // Directional light (moonlight)
+    float dirDiff = max(dot(normal, normalize(-dirLightDirection)), 0.0);
+    vec3 dirDiffuse = dirDiff * dirLightColor * dirLightIntensity;
+
+    vec3 result = (ambient + spotDiffuse + dirDiffuse) * baseColor;
     FragColor = vec4(result, 1.0);
 }

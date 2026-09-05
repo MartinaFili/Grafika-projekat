@@ -190,5 +190,10 @@ void MainController::set_light_uniforms(engine::resources::Shader *shader) {
     shader->set_float("cutOff", glm::cos(glm::radians(inner_deg)));
     shader->set_float("outerCutOff", glm::cos(glm::radians(outer_deg)));
     shader->set_float("intensity", light_intensity);
+
+    // Directional light (moonlight)
+    shader->set_vec3("dirLightDirection", glm::normalize(glm::vec3(-0.3f, -1.0f, -0.2f)));
+    shader->set_vec3("dirLightColor", glm::vec3(0.5f, 0.55f, 0.7f));
+    shader->set_float("dirLightIntensity", 0.3f);
 }
 }// app
