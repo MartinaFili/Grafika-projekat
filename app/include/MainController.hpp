@@ -39,6 +39,14 @@ class MainController : public engine::core::Controller {
     float m_saucer_target_y = 0.2f;
     float m_saucer_progress = 0.0f;
 
+    bool m_waiting_to_descend = false;
+    float m_wait_timer = 0.0f;
+
+    bool m_waiting_to_vanish = false;
+    float m_vanish_timer = 0.0f;
+
+    bool m_saucer_visible = true;
+
 public:
     std::string_view name() const override { return "app::MainController"; }
 };

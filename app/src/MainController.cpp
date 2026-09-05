@@ -88,6 +88,7 @@ void MainController::draw_floor() {
 }
 
 void MainController::draw_saucer() {
+    if (!m_saucer_visible) { return; }
     auto resources = engine::core::Controller::get<engine::resources::ResourcesController>();
     auto graphichs = engine::core::Controller::get<engine::graphics::GraphicsController>();
     engine::resources::Model *saucer = resources->model("saucer");
@@ -105,32 +106,53 @@ void MainController::draw_saucer() {
 }
 
 void MainController::update_saucer(float dt) {
-    if (!m_saucer_descending) { return; }
+    if (m_waiting_to_descend) {
+        m_wait_timer -= dt;
+        if (m_wait_timer <= 0.0f) {
+            m_waiting_to_descend = false;
+            m_saucer_descending = true;
+        }
+        return;
+    }
+    if (m_saucer_descending) {
+        float descend_speed = 0.5f;
+        m_saucer_y -= descend_speed * dt;
 
-    float descend_speed = 0.5f;
-    m_saucer_y -= descend_speed * dt;
+        if (m_saucer_y <= m_saucer_target_y) {
+            m_saucer_y = m_saucer_target_y;
+            m_saucer_descending = false;
 
-    if (m_saucer_y <= m_saucer_target_y) {
-        m_saucer_y = m_saucer_target_y;
-        m_saucer_descending = false;
+            m_waiting_to_vanish = true;
+            m_vanish_timer = 2.0f;
+        }
+
+        float start_y = 1.05f;
+        float total_distance = start_y - m_saucer_target_y;
+        float traveled = start_y - m_saucer_y;
+        m_saucer_progress = traveled / total_distance;
+        return;
     }
 
-    float start_y = 1.05f;
-    float total_distance = start_y - m_saucer_target_y;
-    float traveled = start_y - m_saucer_y;
-    m_saucer_progress = traveled / total_distance;
+    if (m_waiting_to_vanish) {
+        m_vanish_timer -= dt;
+        if (m_vanish_timer <= 0.0f) {
+            m_waiting_to_vanish = false;
+            m_saucer_visible = false;
+        }
+    }
 }
 
 void MainController::update() {
     auto platform = engine::core::Controller::get<engine::platform::PlatformController>();
     if (platform->key(engine::platform::KeyId::KEY_SPACE).state() == engine::platform::Key::State::JustPressed) {
-        if (!m_saucer_descending) {
-            if (m_saucer_progress >= 1.0f) {
-                // već je sleteo — resetuj na vrh i kreni ponovo
+        if (!m_saucer_descending && !m_waiting_to_descend && !m_waiting_to_vanish) {
+            if (m_saucer_progress >= 1.0f || !m_saucer_visible) {
                 m_saucer_y = 1.05f;
                 m_saucer_progress = 0.0f;
+                m_saucer_visible = true;
             }
-            m_saucer_descending = true;
+            m_waiting_to_descend = true;
+            m_wait_timer = 2.0f;
         }
     }
     update_saucer(platform->dt());
@@ -166,7 +188,7 @@ void MainController::set_light_uniforms(engine::resources::Shader *shader) {
     float inner_deg = glm::mix(18.0f, 15.0f, m_saucer_progress);
 
     // jacina
-    float light_intensity = glm::mix(1.0f, 4.0f, m_saucer_progress);
+    float light_intensity = m_saucer_visible ? glm::mix(1.0f, 4.0f, m_saucer_progress) : 0.0f;
 
     shader->set_vec3("lightPos", saucer_pos);
     shader->set_vec3("lightDir", glm::vec3(0.0f, -1.0f, 0.0f));
