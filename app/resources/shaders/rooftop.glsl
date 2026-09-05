@@ -57,7 +57,7 @@ void main() {
     float spot = clamp((theta - outerCutOff) / epsilon, 0.0, 1.0);
 
     float distance = length(lightPos - FragPos);
-    float attenuation = 1.0 / (1.0 + 0.09 * distance + 0.032 * distance * distance);
+    float attenuation = 1.0 / (1.0 + 0.02 * distance + 0.002 * distance * distance);
 
     vec3 spotDiffuse = diff * lightColor * intensity * spot * attenuation;
 
