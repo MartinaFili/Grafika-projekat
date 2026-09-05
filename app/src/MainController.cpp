@@ -104,21 +104,6 @@ void MainController::draw_saucer() {
     saucer->draw(shader);
 }
 
-void MainController::update_camera() {
-    auto gui_controller = engine::core::Controller::get<GUIController>();
-    if (gui_controller->is_enabled()) { return; }
-    auto platform = engine::core::Controller::get<engine::platform::PlatformController>();
-    auto graphichs = engine::core::Controller::get<engine::graphics::GraphicsController>();
-    auto camera = graphichs->camera();
-    float dt = platform->dt();
-    if (platform->key(engine::platform::KeyId::KEY_W).is_down()) { camera->move_camera(engine::graphics::Camera::Movement::FORWARD, dt); }
-    if (platform->key(engine::platform::KeyId::KEY_S).is_down()) { camera->move_camera(engine::graphics::Camera::Movement::BACKWARD, dt); }
-    if (platform->key(engine::platform::KeyId::KEY_A).is_down()) { camera->move_camera(engine::graphics::Camera::Movement::LEFT, dt); }
-    if (platform->key(engine::platform::KeyId::KEY_D).is_down()) { camera->move_camera(engine::graphics::Camera::Movement::RIGHT, dt); }
-    if (platform->key(engine::platform::KeyId::KEY_Q).is_down()) { camera->move_camera(engine::graphics::Camera::Movement::UP, dt); }
-    if (platform->key(engine::platform::KeyId::KEY_E).is_down()) { camera->move_camera(engine::graphics::Camera::Movement::DOWN, dt); }
-}
-
 void MainController::update_saucer(float dt) {
     if (!m_saucer_descending) { return; }
 
@@ -148,7 +133,6 @@ void MainController::update() {
             m_saucer_descending = true;
         }
     }
-    update_camera();
     update_saucer(platform->dt());
 }
 
@@ -192,8 +176,9 @@ void MainController::set_light_uniforms(engine::resources::Shader *shader) {
     shader->set_float("intensity", light_intensity);
 
     // Directional light (moonlight)
+    auto gui_controller = engine::core::Controller::get<GUIController>();
     shader->set_vec3("dirLightDirection", glm::normalize(glm::vec3(-0.3f, -1.0f, -0.2f)));
     shader->set_vec3("dirLightColor", glm::vec3(0.5f, 0.55f, 0.7f));
-    shader->set_float("dirLightIntensity", 0.3f);
+    shader->set_float("dirLightIntensity", gui_controller->dir_light_intensity());
 }
 }// app

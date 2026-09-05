@@ -18,13 +18,13 @@ void GUIController::poll_events() {
 
 void GUIController::draw() {
     auto graphics = engine::core::Controller::get<engine::graphics::GraphicsController>();
-    auto camera = graphics->camera();
     graphics->begin_gui();
 
-    ImGui::Begin("Camera info");
-    ImGui::Text("Camera position: (%f, %f, %f)", camera->Position.x, camera->Position.y, camera->Position.z);
-
+    ImGui::SetNextWindowSize(ImVec2(400, 80), ImGuiCond_FirstUseEver);
+    ImGui::Begin("Moonlight settings");
+    ImGui::SliderFloat("Intensity", &m_dir_light_intensity, 0.0f, 1.5f);
     ImGui::End();
+
     graphics->end_gui();
 }
 }// app

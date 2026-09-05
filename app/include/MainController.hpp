@@ -20,8 +20,6 @@ class MainController : public engine::core::Controller {
 
     void draw_saucer();
 
-    void update_camera();
-
     void update_saucer(float dt);
 
     void update() override;
