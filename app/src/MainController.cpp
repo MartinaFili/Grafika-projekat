@@ -33,7 +33,8 @@ void MainController::initialize() {
 
     auto camera = engine::core::Controller::get<engine::graphics::GraphicsController>()->camera();
     camera->Position = glm::vec3(0.0f, 1.5f, 0.0f);
-    camera->Pitch = -20.0f;
+    camera->Yaw = -45.0f;
+    camera->Pitch = -25.0f;
     camera->rotate_camera(0.0f, 0.0f);
 
 }
@@ -54,9 +55,9 @@ void MainController::draw_rooftop() {
     shader->set_mat4("projection", graphichs->projection_matrix());
     shader->set_mat4("view", graphichs->camera()->view_matrix());
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(0.0f, -0.2f, -5.0f));
-    model = glm::rotate(model, glm::radians(-60.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    model = glm::scale(model, glm::vec3(0.3f));
+    model = glm::translate(model, glm::vec3(3.6f, -1.5f, -4.0f));
+    model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::scale(model, glm::vec3(0.4f));
     shader->set_mat4("model", model);
     rooftop->draw(shader);
 
@@ -73,9 +74,9 @@ void MainController::draw_floor() {
     shader->set_mat4("view", graphichs->camera()->view_matrix());
 
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(0.0f, -0.5f, -5.0f));
-    model = glm::rotate(model, glm::radians(-60.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    model = glm::scale(model, glm::vec3(0.2f));
+    model = glm::translate(model, glm::vec3(4.0f, -1.8f, -4.0f));
+    model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::scale(model, glm::vec3(0.25f));
     shader->set_mat4("model", model);
 
     texture->bind(engine::graphics::OpenGL::texture_unit(0));
@@ -103,9 +104,18 @@ void MainController::update() { update_camera(); }
 
 void MainController::begin_draw() { engine::graphics::OpenGL::clear_buffers(); }
 
+void MainController::draw_skybox() {
+    auto resources = engine::core::Controller::get<engine::resources::ResourcesController>();
+    auto skybox = resources->skybox("night_skybox");
+    auto shader = resources->shader("skybox");
+    auto graphics = engine::core::Controller::get<engine::graphics::GraphicsController>();
+    graphics->draw_skybox(shader, skybox);
+}
+
 void MainController::draw() {
     draw_floor();
     draw_rooftop();
+    draw_skybox();
 }
 
 void MainController::end_draw() {
