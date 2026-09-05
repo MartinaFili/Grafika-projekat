@@ -54,6 +54,7 @@ void MainController::draw_rooftop() {
     shader->use();
     shader->set_mat4("projection", graphichs->projection_matrix());
     shader->set_mat4("view", graphichs->camera()->view_matrix());
+    set_light_uniforms(shader);
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(3.6f, -1.5f, -4.0f));
     model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -72,6 +73,7 @@ void MainController::draw_floor() {
     shader->use();
     shader->set_mat4("projection", graphichs->projection_matrix());
     shader->set_mat4("view", graphichs->camera()->view_matrix());
+    set_light_uniforms(shader);
 
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(4.0f, -1.8f, -4.0f));
@@ -83,6 +85,23 @@ void MainController::draw_floor() {
     shader->set_int("floor_texture", 0);
 
     engine::graphics::OpenGL::draw_floor_quad();
+}
+
+void MainController::draw_saucer() {
+    auto resources = engine::core::Controller::get<engine::resources::ResourcesController>();
+    auto graphichs = engine::core::Controller::get<engine::graphics::GraphicsController>();
+    engine::resources::Model *saucer = resources->model("saucer");
+    engine::resources::Shader *shader = resources->shader("saucer");
+
+    shader->use();
+    shader->set_mat4("projection", graphichs->projection_matrix());
+    shader->set_mat4("view", graphichs->camera()->view_matrix());
+
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(3.6f, m_saucer_y, -4.0f));
+    model = glm::scale(model, glm::vec3(0.01f));
+    shader->set_mat4("model", model);
+    saucer->draw(shader);
 }
 
 void MainController::update_camera() {
@@ -100,7 +119,38 @@ void MainController::update_camera() {
     if (platform->key(engine::platform::KeyId::KEY_E).is_down()) { camera->move_camera(engine::graphics::Camera::Movement::DOWN, dt); }
 }
 
-void MainController::update() { update_camera(); }
+void MainController::update_saucer(float dt) {
+    if (!m_saucer_descending) { return; }
+
+    float descend_speed = 0.5f;
+    m_saucer_y -= descend_speed * dt;
+
+    if (m_saucer_y <= m_saucer_target_y) {
+        m_saucer_y = m_saucer_target_y;
+        m_saucer_descending = false;
+    }
+
+    float start_y = 1.05f;
+    float total_distance = start_y - m_saucer_target_y;
+    float traveled = start_y - m_saucer_y;
+    m_saucer_progress = traveled / total_distance;
+}
+
+void MainController::update() {
+    auto platform = engine::core::Controller::get<engine::platform::PlatformController>();
+    if (platform->key(engine::platform::KeyId::KEY_SPACE).state() == engine::platform::Key::State::JustPressed) {
+        if (!m_saucer_descending) {
+            if (m_saucer_progress >= 1.0f) {
+                // već je sleteo — resetuj na vrh i kreni ponovo
+                m_saucer_y = 1.05f;
+                m_saucer_progress = 0.0f;
+            }
+            m_saucer_descending = true;
+        }
+    }
+    update_camera();
+    update_saucer(platform->dt());
+}
 
 void MainController::begin_draw() { engine::graphics::OpenGL::clear_buffers(); }
 
@@ -115,11 +165,30 @@ void MainController::draw_skybox() {
 void MainController::draw() {
     draw_floor();
     draw_rooftop();
+    draw_saucer();
     draw_skybox();
 }
 
 void MainController::end_draw() {
     auto platform = engine::core::Controller::get<engine::platform::PlatformController>();
     platform->swap_buffers();
+}
+
+void MainController::set_light_uniforms(engine::resources::Shader *shader) {
+    glm::vec3 saucer_pos = glm::vec3(3.6f, m_saucer_y, -4.0f);
+
+    // ugao konusa
+    float outer_deg = glm::mix(25.0f, 20.0f, m_saucer_progress);
+    float inner_deg = glm::mix(18.0f, 15.0f, m_saucer_progress);
+
+    // jacina
+    float light_intensity = glm::mix(1.0f, 4.0f, m_saucer_progress);
+
+    shader->set_vec3("lightPos", saucer_pos);
+    shader->set_vec3("lightDir", glm::vec3(0.0f, -1.0f, 0.0f));
+    shader->set_vec3("lightColor", glm::vec3(1.0f, 1.0f, 0.9f));
+    shader->set_float("cutOff", glm::cos(glm::radians(inner_deg)));
+    shader->set_float("outerCutOff", glm::cos(glm::radians(outer_deg)));
+    shader->set_float("intensity", light_intensity);
 }
 }// app

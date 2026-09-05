@@ -4,6 +4,10 @@
       "rooftop": {
         "path": "rooftop/scene.gltf",
         "flip_uvs": true
+      },
+      "saucer": {
+        "path": "saucer/scene.gltf",
+        "flip_uvs": true
       }
     },
     "textures": {
