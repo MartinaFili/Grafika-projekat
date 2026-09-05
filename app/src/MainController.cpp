@@ -36,7 +36,6 @@ void MainController::initialize() {
     camera->Yaw = -160.0f;
     camera->Pitch = 20.0f;
     camera->rotate_camera(0.0f, 0.0f);
-
 }
 
 bool MainController::loop() {
