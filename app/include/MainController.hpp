@@ -51,6 +51,6 @@ public:
     std::string_view name() const override { return "app::MainController"; }
 };
 
-}// app
+}// namespace app
 
-#endif //MAINCONTROLLER_HPP
+#endif//MAINCONTROLLER_HPP

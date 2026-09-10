@@ -24,6 +24,6 @@ private:
     float m_dir_light_intensity = 0.3f;
 };
 
-}// app
+}// namespace app
 
-#endif //GUICONTROLLER_HPP
+#endif//GUICONTROLLER_HPP

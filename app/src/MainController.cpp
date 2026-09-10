@@ -60,7 +60,6 @@ void MainController::draw_rooftop() {
     model = glm::scale(model, glm::vec3(0.4f));
     shader->set_mat4("model", model);
     rooftop->draw(shader);
-
 }
 
 void MainController::draw_floor() {
@@ -202,4 +201,4 @@ void MainController::set_light_uniforms(engine::resources::Shader *shader) {
     shader->set_vec3("dirLightColor", glm::vec3(0.5f, 0.55f, 0.7f));
     shader->set_float("dirLightIntensity", gui_controller->dir_light_intensity());
 }
-}// app
+}// namespace app

@@ -5,8 +5,8 @@
 #include <GuiController.hpp>
 #include <engine/platform/PlatformController.hpp>
 
-#include <imgui.h>
 #include <engine/graphics/GraphicsController.hpp>
+#include <imgui.h>
 
 namespace app {
 void GUIController::initialize() { set_enable(false); }
@@ -27,4 +27,4 @@ void GUIController::draw() {
 
     graphics->end_gui();
 }
-}// app
+}// namespace app

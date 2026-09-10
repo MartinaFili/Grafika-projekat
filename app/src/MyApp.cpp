@@ -16,4 +16,4 @@ void MyApp::app_setup() {
     main_controller->after(engine::core::Controller::get<engine::core::EngineControllersEnd>());
     main_controller->before(gui_controller);
 }
-}// app
+}// namespace app
