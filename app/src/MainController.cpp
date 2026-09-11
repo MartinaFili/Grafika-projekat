@@ -83,7 +83,7 @@ void MainController::draw_floor() {
     texture->bind(engine::graphics::OpenGL::texture_unit(0));
     shader->set_int("floor_texture", 0);
 
-    engine::graphics::OpenGL::draw_floor_quad(graphichs->floor_quad_vao());
+    engine::graphics::OpenGL::draw_quad(graphichs->floor_quad_vao());
 }
 
 void MainController::draw_saucer() {

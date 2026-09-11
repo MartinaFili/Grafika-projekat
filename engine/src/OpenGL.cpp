@@ -76,7 +76,7 @@ uint32_t OpenGL::init_skybox_cube() {
     return skybox_vao;
 }
 
-uint32_t OpenGL::create_floor_quad() {
+uint32_t OpenGL::init_quad_vao() {
     float vertices[] = {
             // positions           // texture coords
             -0.5f, 0.0f, -0.5f, 0.0f, 0.0f,
@@ -100,7 +100,7 @@ uint32_t OpenGL::create_floor_quad() {
     return floor_vao;
 }
 
-void OpenGL::draw_floor_quad(uint32_t vao) {
+void OpenGL::draw_quad(uint32_t vao) {
     CHECKED_GL_CALL(glBindVertexArray, vao);
     CHECKED_GL_CALL(glDrawArrays, GL_TRIANGLES, 0, 6);
 }

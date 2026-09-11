@@ -97,13 +97,13 @@ public:
     * @brief Creates the VAO/VBO used for drawing a flat floor quad.
     * @returns VAO of the floor quad.
     */
-    static uint32_t create_floor_quad();
+    static uint32_t init_quad_vao();
 
     /**
     * @brief Draws the floor quad (2 triangles, 6 vertices) using the given VAO.
     * @param vao VAO to bind and draw.
     */
-    static void draw_floor_quad(uint32_t vao);
+    static void draw_quad(uint32_t vao);
 
     /**
     * @brief Converts a plain texture unit index (0, 1, 2...) to the corresponding OpenGL texture unit enum (GL_TEXTURE0, GL_TEXTURE1...).

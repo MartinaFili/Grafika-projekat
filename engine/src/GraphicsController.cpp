@@ -39,7 +39,7 @@ void GraphicsController::initialize() {
     (void) io;
     RG_GUARANTEE(ImGui_ImplGlfw_InitForOpenGL(handle, true), "ImGUI failed to initialize for OpenGL");
     RG_GUARANTEE(ImGui_ImplOpenGL3_Init("#version 330 core"), "ImGUI failed to initialize for OpenGL");
-    m_floor_quad_vao = OpenGL::create_floor_quad();
+    m_floor_quad_vao = OpenGL::init_quad_vao();
 }
 
 void GraphicsController::terminate() {
