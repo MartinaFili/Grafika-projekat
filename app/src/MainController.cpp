@@ -71,12 +71,13 @@ void MainController::draw_floor() {
     shader->use();
     shader->set_mat4("projection", graphichs->projection_matrix());
     shader->set_mat4("view", graphichs->camera()->view_matrix());
+    shader->set_float("uv_tiling", 5.0f);
     set_light_uniforms(shader);
 
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(4.0f, -1.8f, -4.0f));
     model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    model = glm::scale(model, glm::vec3(0.25f));
+    model = glm::scale(model, glm::vec3(5.0f));
     shader->set_mat4("model", model);
 
     texture->bind(engine::graphics::OpenGL::texture_unit(0));

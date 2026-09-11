@@ -10,10 +10,11 @@ out vec3 FragPos;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform float uv_tiling;
 
 void main() {
     FragPos = vec3(model * vec4(aPos, 1.0));
-    TexCoords = aTexCoords;
+    TexCoords = aTexCoords * uv_tiling;
     gl_Position = projection * view * vec4(FragPos, 1.0);
 }
 

@@ -78,14 +78,14 @@ uint32_t OpenGL::init_skybox_cube() {
 
 uint32_t OpenGL::create_floor_quad() {
     float vertices[] = {
-            // positions            // texture coords
-            -10.0f, 0.0f, -10.0f, 0.0f, 0.0f,
-            10.0f, 0.0f, -10.0f, 5.0f, 0.0f,
-            10.0f, 0.0f, 10.0f, 5.0f, 5.0f,
+            // positions           // texture coords
+            -0.5f, 0.0f, -0.5f, 0.0f, 0.0f,
+            0.5f, 0.0f, -0.5f, 1.0f, 0.0f,
+            0.5f, 0.0f, 0.5f, 1.0f, 1.0f,
 
-            -10.0f, 0.0f, -10.0f, 0.0f, 0.0f,
-            10.0f, 0.0f, 10.0f, 5.0f, 5.0f,
-            -10.0f, 0.0f, 10.0f, 0.0f, 5.0f};
+            -0.5f, 0.0f, -0.5f, 0.0f, 0.0f,
+            0.5f, 0.0f, 0.5f, 1.0f, 1.0f,
+            -0.5f, 0.0f, 0.5f, 0.0f, 1.0f};
     uint32_t floor_vao = 0;
     uint32_t floor_vbo = 0;
     CHECKED_GL_CALL(glGenVertexArrays, 1, &floor_vao);
