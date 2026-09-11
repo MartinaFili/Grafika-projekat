@@ -196,9 +196,9 @@ void MainController::set_light_uniforms(engine::resources::Shader *shader) {
     shader->set_float("intensity", light_intensity);
 
     // Directional light (moonlight)
-    auto gui_controller = engine::core::Controller::get<GUIController>();
+    //auto gui_controller = engine::core::Controller::get<GUIController>();
     shader->set_vec3("dirLightDirection", glm::normalize(glm::vec3(-0.3f, -1.0f, -0.2f)));
     shader->set_vec3("dirLightColor", glm::vec3(0.5f, 0.55f, 0.7f));
-    shader->set_float("dirLightIntensity", gui_controller->dir_light_intensity());
+    shader->set_float("dirLightIntensity", m_dir_light_intensity);
 }
 }// namespace app

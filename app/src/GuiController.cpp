@@ -3,6 +3,7 @@
 //
 
 #include <GuiController.hpp>
+#include <MainController.hpp>
 #include <engine/platform/PlatformController.hpp>
 
 #include <engine/graphics/GraphicsController.hpp>
@@ -18,11 +19,12 @@ void GUIController::poll_events() {
 
 void GUIController::draw() {
     auto graphics = engine::core::Controller::get<engine::graphics::GraphicsController>();
+    auto main_controller = engine::core::Controller::get<app::MainController>();
     graphics->begin_gui();
 
     ImGui::SetNextWindowSize(ImVec2(400, 80), ImGuiCond_FirstUseEver);
     ImGui::Begin("Moonlight settings");
-    ImGui::SliderFloat("Intensity", &m_dir_light_intensity, 0.0f, 1.5f);
+    ImGui::SliderFloat("Intensity", &main_controller->dir_light_intensity(), 0.0f, 1.5f);
     ImGui::End();
 
     graphics->end_gui();

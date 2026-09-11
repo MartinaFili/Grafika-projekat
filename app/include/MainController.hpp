@@ -47,10 +47,12 @@ class MainController : public engine::core::Controller {
 
     bool m_saucer_visible = true;
 
+    float m_dir_light_intensity = 0.3f;
+
 public:
     std::string_view name() const override { return "app::MainController"; }
+    float &dir_light_intensity() { return m_dir_light_intensity; }
 };
-
 }// namespace app
 
 #endif//MAINCONTROLLER_HPP
