@@ -1,11 +1,24 @@
 {
   "resources": {
     "models": {
+      "rooftop": {
+        "path": "rooftop/scene.gltf",
+        "flip_uvs": true
+      },
+      "saucer": {
+        "path": "saucer/scene.gltf",
+        "flip_uvs": true
+      }
+    },
+    "textures": {
+      "rooftop_floor": {
+        "path": "rooftop_floor.jpg"
+      }
     }
   },
   "window": {
-    "height": 600,
+    "height": 900,
     "title": "Hello, window!",
-    "width": 800
+    "width": 1400
   }
 }
