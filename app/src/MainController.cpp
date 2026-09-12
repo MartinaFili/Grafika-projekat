@@ -80,10 +80,8 @@ void MainController::draw_floor() {
     model = glm::scale(model, glm::vec3(5.0f));
     shader->set_mat4("model", model);
 
-    texture->bind(engine::graphics::OpenGL::texture_unit(0));
     shader->set_int("floor_texture", 0);
-
-    engine::graphics::OpenGL::draw_quad(graphichs->quad_vao());
+    graphichs->draw_quad(texture);
 }
 
 void MainController::draw_saucer() {

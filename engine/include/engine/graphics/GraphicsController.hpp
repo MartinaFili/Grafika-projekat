@@ -13,6 +13,7 @@
 struct ImGuiContext;
 
 namespace engine::resources {
+class Texture;
 class Skybox;
 
 class Shader;
@@ -88,7 +89,7 @@ public:
 
     Camera *camera() { return &m_camera; }
 
-    uint32_t quad_vao() const { return m_quad_vao; }
+    void draw_quad(const resources::Texture *texture);
 
     /**
     * @brief Compute the projection matrix.
