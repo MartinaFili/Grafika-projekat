@@ -88,7 +88,7 @@ public:
 
     Camera *camera() { return &m_camera; }
 
-    uint32_t floor_quad_vao() const { return m_floor_quad_vao; }
+    uint32_t quad_vao() const { return m_quad_vao; }
 
     /**
     * @brief Compute the projection matrix.
@@ -160,7 +160,7 @@ private:
     Camera m_camera{};
     ImGuiContext *m_imgui_context{};
 
-    uint32_t m_floor_quad_vao{0};
+    uint32_t m_quad_vao{0};
 };
 
 /**

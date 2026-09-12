@@ -86,18 +86,18 @@ uint32_t OpenGL::init_quad_vao() {
             -0.5f, 0.0f, -0.5f, 0.0f, 0.0f,
             0.5f, 0.0f, 0.5f, 1.0f, 1.0f,
             -0.5f, 0.0f, 0.5f, 0.0f, 1.0f};
-    uint32_t floor_vao = 0;
-    uint32_t floor_vbo = 0;
-    CHECKED_GL_CALL(glGenVertexArrays, 1, &floor_vao);
-    CHECKED_GL_CALL(glGenBuffers, 1, &floor_vbo);
-    CHECKED_GL_CALL(glBindVertexArray, floor_vao);
-    CHECKED_GL_CALL(glBindBuffer, GL_ARRAY_BUFFER, floor_vbo);
+    uint32_t quad_vao = 0;
+    uint32_t quad_vbo = 0;
+    CHECKED_GL_CALL(glGenVertexArrays, 1, &quad_vao);
+    CHECKED_GL_CALL(glGenBuffers, 1, &quad_vbo);
+    CHECKED_GL_CALL(glBindVertexArray, quad_vao);
+    CHECKED_GL_CALL(glBindBuffer, GL_ARRAY_BUFFER, quad_vbo);
     CHECKED_GL_CALL(glBufferData, GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
     CHECKED_GL_CALL(glEnableVertexAttribArray, 0);
     CHECKED_GL_CALL(glVertexAttribPointer, 0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) 0);// NOLINT
     CHECKED_GL_CALL(glEnableVertexAttribArray, 1);
     CHECKED_GL_CALL(glVertexAttribPointer, 1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));// NOLINT
-    return floor_vao;
+    return quad_vao;
 }
 
 void OpenGL::draw_quad(uint32_t vao) {

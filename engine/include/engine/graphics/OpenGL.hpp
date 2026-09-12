@@ -94,13 +94,13 @@ public:
     static uint32_t init_skybox_cube();
 
     /**
-    * @brief Creates the VAO/VBO used for drawing a flat floor quad.
-    * @returns VAO of the floor quad.
+    * @brief Creates the VAO/VBO used for drawing a generic quad.
+    * @returns VAO of the quad.
     */
     static uint32_t init_quad_vao();
 
     /**
-    * @brief Draws the floor quad (2 triangles, 6 vertices) using the given VAO.
+    * @brief Draws the quad (2 triangles, 6 vertices) using the given VAO.
     * @param vao VAO to bind and draw.
     */
     static void draw_quad(uint32_t vao);
