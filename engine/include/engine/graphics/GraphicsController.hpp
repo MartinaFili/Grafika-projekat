@@ -171,7 +171,7 @@ private:
 class GraphicsPlatformEventObserver final : public platform::PlatformEventObserver {
 public:
     explicit GraphicsPlatformEventObserver(GraphicsController *graphics)
-    : m_graphics(graphics) {}
+        : m_graphics(graphics) {}
 
     void on_window_resize(int width, int height) override;
 

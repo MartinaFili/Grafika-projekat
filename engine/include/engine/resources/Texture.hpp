@@ -93,10 +93,10 @@ private:
     * @param name The name of the texture.
     */
     Texture(uint32_t id, TextureType type, std::filesystem::path path, std::string name)
-    : m_id(id)
-  , m_type(type)
-  , m_path(std::move(path))
-  , m_name(std::move(name)) {}
+        : m_id(id)
+        , m_type(type)
+        , m_path(std::move(path))
+        , m_name(std::move(name)) {}
 
     uint32_t m_id{};
     TextureType m_type{};
