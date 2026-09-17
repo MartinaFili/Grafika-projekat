@@ -94,6 +94,25 @@ public:
     static uint32_t init_skybox_cube();
 
     /**
+    * @brief Creates the VAO/VBO used for drawing a generic quad.
+    * @returns VAO of the quad.
+    */
+    static uint32_t init_quad_vao();
+
+    /**
+    * @brief Draws the quad (2 triangles, 6 vertices) using the given VAO.
+    * @param vao VAO to bind and draw.
+    */
+    static void draw_quad(uint32_t vao);
+
+    /**
+    * @brief Converts a plain texture unit index (0, 1, 2...) to the corresponding OpenGL texture unit enum (GL_TEXTURE0, GL_TEXTURE1...).
+    * @param index Texture unit index.
+    * @returns OpenGL texture unit enum value.
+    */
+    static int32_t texture_unit(int32_t index);
+
+    /**
     * @brief Check if the shader with the `shader_id` compiled successfully.
     * @returns true if the shader compilation succeeded, false otherwise.
     */

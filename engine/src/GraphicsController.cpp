@@ -7,6 +7,7 @@
 #include <engine/graphics/OpenGL.hpp>
 #include <engine/platform/PlatformController.hpp>
 #include <engine/resources/Skybox.hpp>
+#include <engine/resources/Texture.hpp>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 
@@ -39,6 +40,7 @@ void GraphicsController::initialize() {
     (void) io;
     RG_GUARANTEE(ImGui_ImplGlfw_InitForOpenGL(handle, true), "ImGUI failed to initialize for OpenGL");
     RG_GUARANTEE(ImGui_ImplOpenGL3_Init("#version 330 core"), "ImGUI failed to initialize for OpenGL");
+    m_quad_vao = OpenGL::init_quad_vao();
 }
 
 void GraphicsController::terminate() {
@@ -57,9 +59,7 @@ void GraphicsPlatformEventObserver::on_window_resize(int width, int height) {
     CHECKED_GL_CALL(glViewport, 0, 0, width, height);
 }
 
-std::string_view GraphicsController::name() const {
-    return "GraphicsController";
-}
+std::string_view GraphicsController::name() const { return "GraphicsController"; }
 
 void GraphicsController::begin_gui() {
     ImGui_ImplOpenGL3_NewFrame();
@@ -85,5 +85,10 @@ void GraphicsController::draw_skybox(const resources::Shader *shader, const reso
     CHECKED_GL_CALL(glBindVertexArray, 0);
     CHECKED_GL_CALL(glDepthFunc, GL_LESS);// set depth function back to default
     CHECKED_GL_CALL(glBindTexture, GL_TEXTURE_CUBE_MAP, 0);
+}
+
+void GraphicsController::draw_quad(const resources::Texture *texture) {
+    texture->bind(OpenGL::texture_unit(0));
+    OpenGL::draw_quad(m_quad_vao);
 }
 }// namespace engine::graphics

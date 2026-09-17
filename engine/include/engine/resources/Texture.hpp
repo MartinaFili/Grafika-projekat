@@ -56,39 +56,31 @@ public:
     * @brief Returns the type of the texture.
     * @returns The type of the texture.
     */
-    TextureType type() const {
-        return m_type;
-    }
+    TextureType type() const { return m_type; }
 
     /**
     * @brief Returns the OpenGL ID of the texture.
     * @returns The OpenGL ID of the texture.
     */
-    uint32_t id() const {
-        return m_id;
-    }
+    uint32_t id() const { return m_id; }
 
     /**
     * @brief Binds the texture to a given sampler.
     * @param sampler The sampler to bind the texture to.
     */
-    void bind(int32_t sampler);
+    void bind(int32_t sampler) const;
 
     /**
     * @brief Returns the path to the texture file from which the texture was loaded.
     * @returns The path to the texture file.
     */
-    const std::filesystem::path &path() const {
-        return m_path;
-    }
+    const std::filesystem::path &path() const { return m_path; }
 
     /**
     * @brief Returns the name of the texture by which it can be referenced using the @ref engine::resources::ResourcesController::texture function.
     * @returns The name of the texture.
     */
-    const std::string &name() const {
-        return m_name;
-    }
+    const std::string &name() const { return m_name; }
 
     Texture() = default;
 
@@ -104,8 +96,7 @@ private:
         : m_id(id)
         , m_type(type)
         , m_path(std::move(path))
-        , m_name(std::move(name)) {
-    }
+        , m_name(std::move(name)) {}
 
     uint32_t m_id{};
     TextureType m_type{};
